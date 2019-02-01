@@ -91,7 +91,7 @@ public:
       disable_file_logging.end(),
       disable_file_logging.begin(),
       ::tolower);
-+#else
+#else
     std::transform(
       disable_file_logging.begin(),
       disable_file_logging.end(),
