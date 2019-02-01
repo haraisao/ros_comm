@@ -34,6 +34,10 @@
 
 #include "Python.h"
 
+#ifdef WIN32
+#define roslz4_EXPORTS
+#endif
+
 #include "roslz4/lz4s.h"
 
 struct module_state {
@@ -409,12 +413,14 @@ static struct PyModuleDef moduledef = {
 };
 #define INITERROR return NULL
 
+ROSLZ4S_DECL
 PyObject *
 PyInit__roslz4(void)
 
 #else
 #define INITERROR return
 
+ROSLZ4S_DECL
 void
 init_roslz4(void)
 #endif

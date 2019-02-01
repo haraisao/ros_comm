@@ -8,14 +8,28 @@ endif()
 
 find_package(catkin REQUIRED COMPONENTS cpp_common)
 
-find_path(lz4_INCLUDE_DIRS NAMES lz4.h)
+if(WIN32)
+  find_path(lz4_INCLUDE_DIRS NAMES lz4.h HINTS $ENV{LZ4_ROOT}/include)
+else()
+  find_path(lz4_INCLUDE_DIRS NAMES lz4.h)
+endif()
+
 if (NOT lz4_INCLUDE_DIRS)
   message(FATAL_ERROR "lz4 includes not found")
 endif()
 
-find_library(lz4_LIBRARIES NAMES lz4)
+if(WIN32)
+  find_library(lz4_LIBRARIES NAMES lz4 PATH_SUFFIXES $ENV{LZ4_ROOT})
+else()
+  find_library(lz4_LIBRARIES NAMES lz4)
+endif()
 if (NOT lz4_LIBRARIES)
+  if(WIN32)
+    set(lz4_LIBRARIES $ENV{LZ4_ROOT}/lib/liblz4_static.lib CACHE PATH "" FORCE )
+    message("lz4 lib = ${lz4_LIBRARIES}")
+  else()
   message(FATAL_ERROR "lz4 library not found")
+  endif()
 endif()
 set(lz4_FOUND TRUE)
 
@@ -65,6 +79,13 @@ install(TARGETS roslz4
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+if(WIN32)
+install(TARGETS roslz4
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+  CONFIGURATIONS Release
+)
+endif()
 
 if(NOT ANDROID)
 install(TARGETS roslz4_py

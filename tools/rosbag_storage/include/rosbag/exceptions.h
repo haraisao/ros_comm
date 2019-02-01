@@ -35,33 +35,34 @@
 #ifndef ROSBAG_EXCEPTIONS_H
 #define ROSBAG_EXCEPTIONS_H
 
+#include "rosbag/macros.h"
 #include <ros/exception.h>
 
 namespace rosbag {
 
 //! Base class for rosbag exceptions
-class BagException : public ros::Exception
+class ROSBAG_STORAGE_DECL BagException : public ros::Exception
 {
 public:
     BagException(std::string const& msg) : ros::Exception(msg) { }
 };
 
 //! Exception thrown when on IO problems
-class BagIOException : public BagException
+class ROSBAG_STORAGE_DECL BagIOException : public BagException
 {
 public:
     BagIOException(std::string const& msg) : BagException(msg) { }
 };
 
 //! Exception thrown on problems reading the bag format
-class BagFormatException : public BagException
+class ROSBAG_STORAGE_DECL BagFormatException : public BagException
 {
 public:
     BagFormatException(std::string const& msg) : BagException(msg) { }
 };
 
 //! Exception thrown on problems reading the bag index
-class BagUnindexedException : public BagException
+class ROSBAG_STORAGE_DECL BagUnindexedException : public BagException
 {
 public:
     BagUnindexedException() : BagException("Bag unindexed") { }

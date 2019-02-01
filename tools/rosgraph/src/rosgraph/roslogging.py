@@ -67,6 +67,7 @@ class RospyLogger(logging.getLoggerClass()):
                 break
             f = f.f_back
 
+        if f is None: raise ValueError
         # Jump up two more frames, as the logger methods have been double wrapped.
         if f.f_back and f.f_code and f.f_code.co_name == '_base_logger':
             f = f.f_back

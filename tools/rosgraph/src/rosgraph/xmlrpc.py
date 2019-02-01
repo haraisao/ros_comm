@@ -129,16 +129,18 @@ class ThreadingXMLRPCServer(socketserver.ThreadingMixIn, SimpleXMLRPCServer):
             logger = logging.getLogger('xmlrpc')
             if logger:
                 logger.error(traceback.format_exc())
-    
-class ForkingXMLRPCServer(socketserver.ForkingMixIn, SimpleXMLRPCServer):
-    """
-    Adds ThreadingMixin to SimpleXMLRPCServer to support multiple concurrent
-    requests via forking. Also makes logging toggleable.      
-    """
-    def __init__(self, addr, request_handler=SilenceableXMLRPCRequestHandler, log_requests=1):
-        SimpleXMLRPCServer.__init__(self, addr, request_handler, log_requests)
-    
 
+try:
+    class ForkingXMLRPCServer(socketserver.ForkingMixIn, SimpleXMLRPCServer):
+        """
+        Adds ThreadingMixin to SimpleXMLRPCServer to support multiple concurrent
+        requests via forking. Also makes logging toggleable.      
+        """
+        def __init__(self, addr, request_handler=SilenceableXMLRPCRequestHandler, log_requests=1):
+            SimpleXMLRPCServer.__init__(self, addr, request_handler, log_requests)
+except:
+    ForkingXMLRPCServer = ThreadingXMLRPCServer
+ 
 class XmlRpcHandler(object):
     """
     Base handler API for handlers used with XmlRpcNode. Public methods will be 

@@ -35,6 +35,7 @@
 #ifndef ROSBAG_ENCRYPTION_H
 #define ROSBAG_ENCRYPTION_H
 
+#include "rosbag/macros.h"
 #include "rosbag/buffer.h"
 #include "rosbag/chunked_file.h"
 #include "rosbag/structures.h"
@@ -55,7 +56,7 @@ namespace rosbag {
 
 class Bag;
 
-class EncryptorBase
+class ROSBAG_STORAGE_DECL EncryptorBase
 {
 protected:
     EncryptorBase() { }
@@ -133,7 +134,7 @@ public:
     virtual bool readEncryptedHeader(boost::function<bool(ros::Header&)> read_header, ros::Header& header, Buffer& header_buffer, ChunkedFile& file) = 0;
 };
 
-class NoEncryptor : public EncryptorBase
+class ROSBAG_STORAGE_DECL NoEncryptor : public EncryptorBase
 {
 public:
     NoEncryptor() { }
@@ -166,7 +167,7 @@ void initGpgme();
  */
 void getGpgKey(gpgme_ctx_t& ctx, std::string const& user, gpgme_key_t& key);
 
-class AesCbcEncryptor : public EncryptorBase
+class ROSBAG_STORAGE_DECL AesCbcEncryptor : public EncryptorBase
 {
 public:
     static const std::string GPG_USER_FIELD_NAME;

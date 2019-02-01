@@ -57,7 +57,7 @@ struct ROSBAG_STORAGE_DECL ConnectionInfo
     boost::shared_ptr<ros::M_string> header;
 };
 
-struct ChunkInfo
+struct ROSBAG_STORAGE_DECL ChunkInfo
 {
     ros::Time   start_time;    //! earliest timestamp of a message in the chunk
     ros::Time   end_time;      //! latest timestamp of a message in the chunk

@@ -7,7 +7,11 @@ endif()
 
 find_package(catkin REQUIRED COMPONENTS rosbag_storage rosconsole roscpp std_srvs topic_tools xmlrpcpp)
 find_package(Boost REQUIRED COMPONENTS date_time regex program_options filesystem)
-find_package(BZip2 REQUIRED)
+if(WIN32)
+  find_package(BZip2 REQUIRED HINTS $ENV{RZip2_ROOT})
+else()
+  find_package(BZip2 REQUIRED )
+endif()
 
 catkin_python_setup()
 

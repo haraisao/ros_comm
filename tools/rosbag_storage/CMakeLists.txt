@@ -9,7 +9,11 @@ endif()
 find_package(console_bridge REQUIRED)
 find_package(catkin REQUIRED COMPONENTS cpp_common pluginlib roscpp_serialization roscpp_traits rostime roslz4 std_msgs)
 find_package(Boost REQUIRED COMPONENTS date_time filesystem program_options regex)
-find_package(BZip2 REQUIRED)
+if(WIN32)
+  find_package(BZip2 REQUIRED HINTS $ENV{RZip2_ROOT})
+else()
+  find_package(BZip2 REQUIRED)
+endif()
 
 catkin_package(
   CFG_EXTRAS rosbag_storage-extras.cmake
@@ -54,6 +58,18 @@ install(TARGETS rosbag_storage
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+if(WIN32)
+  install(TARGETS rosbag_storage
+    RUNTIME DESTINATION ${CATKIN_GLOBAL_LIB_DESTINATION}
+    CONFIGURATIONS Release
+  )
+
+  install(FILES encryptor_plugins_win32.xml
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+    RENAME encryptor_plugins.xml
+  )
+endif()
 
 install(DIRECTORY include/
   DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}

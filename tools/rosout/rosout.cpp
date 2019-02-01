@@ -85,11 +85,19 @@ public:
   {
     const char* disable_file_logging_env = getenv("ROSOUT_DISABLE_FILE_LOGGING");
     std::string disable_file_logging(disable_file_logging_env ? disable_file_logging_env : "");
+#if _WIN32
+    std::transform(
+      disable_file_logging.begin(),
+      disable_file_logging.end(),
+      disable_file_logging.begin(),
+      ::tolower);
++#else
     std::transform(
       disable_file_logging.begin(),
       disable_file_logging.end(),
       disable_file_logging.begin(),
       [](char c){ return std::tolower(c); });
+#endif
     if (disable_file_logging.empty() ||  // Not set or set to empty string.
       disable_file_logging == "0" ||
       disable_file_logging == "false" ||

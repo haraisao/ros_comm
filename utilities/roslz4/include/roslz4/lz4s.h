@@ -40,7 +40,7 @@
 
 // Import/export for windows dll's and visibility for gcc shared libraries.
 #ifdef ROS_BUILD_SHARED_LIBS // ros is being built around shared libraries
-  #ifdef roslz4_EXPORTS // we are building a shared lib/dll
+  #ifdef roslz4_EXPORTS || roslz4py_EXPORTS // we are building a shared lib/dll
     #define ROSLZ4S_DECL ROS_HELPER_EXPORT
   #else // we are using shared lib/dll
     #define ROSLZ4S_DECL ROS_HELPER_IMPORT

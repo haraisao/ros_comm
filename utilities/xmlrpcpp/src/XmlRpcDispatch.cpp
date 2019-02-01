@@ -11,11 +11,12 @@
 
 #if defined(_WINDOWS)
 # include <winsock2.h>
+/*
 static inline int poll( struct pollfd *pfd, int nfds, int timeout)
 {
   return WSAPoll(pfd, nfds, timeout);
 }
-
+*/
 # define USE_FTIME
 # if defined(_MSC_VER)
 #  define timeb _timeb
@@ -122,8 +123,11 @@ XmlRpcDispatch::work(double timeout)
     }
 
     // Check for events
+#ifdef _WIN32
+	  int nEvents = WSAPoll(&fds[0], source_cnt, (timeout_ms < 0) ? -1 : timeout_ms);
+#else
     int nEvents = poll(&fds[0], source_cnt, (timeout_ms < 0) ? -1 : timeout_ms);
-
+#endif
     if (nEvents < 0)
     {
 #if defined(_WINDOWS)

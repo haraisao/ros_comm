@@ -83,7 +83,7 @@ namespace rosbag {
 namespace bagmode
 {
     //! The possible modes to open a bag in
-    enum BagMode
+    enum ROSBAG_STORAGE_DECL BagMode
     {
         Write   = 1,
         Read    = 2,
