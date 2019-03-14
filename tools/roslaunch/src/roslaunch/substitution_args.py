@@ -262,7 +262,12 @@ def _sanitize_path(path):
 def _get_executable_path(base_path, path):
     full_path = os.path.join(base_path, path)
     if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
-        return full_path
+        if os.name == 'nt':
+            if not os.path.splitext(full_path)[1] :
+                full_path = full_path+".exe"
+            return full_path.replace("\\", "/")
+        else:
+            return full_path
     return None
 
 

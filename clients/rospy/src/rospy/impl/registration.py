@@ -373,6 +373,9 @@ class RegManager(RegistrationListener):
                     self.logger.debug("unregisterService [%s]"%resolved_name) 
                     multi.unregisterService(caller_id, resolved_name, service_uri)
             multi()
+        except ConnectionRefusedError:
+            self.logger.warn("cleanup: Connection Refused Error....\n")
+            pass
         except socket.error as se:
             (se_errno, msg) = se.args
             if se_errno == errno.ECONNREFUSED or se_errno == errno.ENODATA: #can't talk to master, nothing we can do about it

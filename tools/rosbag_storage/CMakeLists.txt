@@ -62,7 +62,7 @@ install(TARGETS rosbag_storage
 if(WIN32)
   install(TARGETS rosbag_storage
     RUNTIME DESTINATION ${CATKIN_GLOBAL_LIB_DESTINATION}
-    CONFIGURATIONS Release
+    CONFIGURATIONS ${CMAKE_BUILD_TYPE}
   )
 
   install(FILES encryptor_plugins_win32.xml
